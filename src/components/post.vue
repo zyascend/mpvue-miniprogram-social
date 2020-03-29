@@ -1,33 +1,77 @@
 <template>
   <div class="container">
     <div class="top">
-      <img src="http://qiniu.shyshyshy.icu/image/sana/1585392633511_0" alt="" class="ava">
-      <div class="name">ZYASCEND</div>
+      <img :src="post.user.avaUrl" alt="" class="ava" @click="onUserClick">
+      <div class="name"  @click="onUserClick">{{ post.user.userName }}</div>
       <div class="post-info">
-        <p class="date">30分钟前</p>
+        <p class="date">{{ formatedDate }}</p>
         <van-icon name="location-o" class="icon" color="#9da4b3"></van-icon>
-        <p class="location">当前位置</p>
+        <p class="location">{{ post.postLocation }}</p>
       </div>
-      <van-icon name="ellipsis" class="more" color="#0d0e15"></van-icon>
+      <van-icon name="ellipsis" class="more" color="#0d0e15" @click="onMoreClick"></van-icon>
     </div>
-    <p class="content">这是Post的Content这是Post的Content,这是Post的Content这是Post的Content,这是Post的Content这是Post的Content</p>
-    <img src="http://qiniu.shyshyshy.icu/image/other/1585392688603_3XVmQA.jpg" alt="" class="img">
+    <p class="content" v-if="post.postTextContent">{{ post.postTextContent }}</p>
+    <img
+      :src="post.postPicUrl"
+      v-if="post.postPicUrl"
+      alt=""
+      class="img"
+      @click="onPicClick">
     <div class="bottom">
       <div class="left">
         <van-icon class="icon" name="like-o"></van-icon>
-        <p>500</p>
+        <p>{{ post.postLikeCount }}</p>
         <van-icon class="icon" name="comment-o"></van-icon>
-        <p>20</p>
+        <p>{{ post.postCommentCount }}</p>
         <van-icon class="icon" name="replay"></van-icon>
       </div>
-      <van-icon class="star" name="star-o"></van-icon>
+      <van-icon class="star" name="star-o" @click="onStarClick"></van-icon>
     </div>
   </div>
 </template>
 
 <script>
+  import { beautifyTime } from '../utils'
   export default {
-    name: 'post'
+    name: 'post',
+    props: {
+      post: {
+        type: Object,
+        default: {
+          user: {
+            userId: String,
+            avaUrl: String,
+            userName: String
+          },
+          postId: String,
+          postDate: String,
+          postLocation: String,
+          postTextContent: String,
+          postPicUrl: String,
+          postLikeCount: Number,
+          postCommentCount: Number
+        }
+      }
+    },
+    computed: {
+      formatedDate() {
+        return beautifyTime(this.post.postDate)
+      }
+    },
+    methods: {
+      onMoreClick() {
+        this.$emit('onMoreClick')
+      },
+      onUserClick() {
+        this.$emit('onUserClick')
+      },
+      onPicClick() {
+        this.$emit('onPicClick')
+      },
+      onStarClick() {
+        this.$emit('onStarClick')
+      }
+    }
   }
 </script>
 

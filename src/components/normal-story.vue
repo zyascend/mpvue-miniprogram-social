@@ -1,14 +1,30 @@
 <template>
-  <div class="container">
-    <img class="pic" alt="" src="http://qiniu.shyshyshy.icu/image/sana/1585392633511_0"/>
-    <img class="ava" alt="" src="http://qiniu.shyshyshy.icu/image/sana/20170602220359_s5Lde.png"/>
-    <div class="live">Live</div>
+  <div class="container" @click="onClick">
+    <img class="pic" alt="" :src="story.picUrl"/>
+    <img class="ava" alt="" :src="story.avaUrl"/>
+    <div v-if="story.isLive" class="live">Live</div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'normal-story'
+    name: 'normal-story',
+    props: {
+      story: {
+        type: Object,
+        default: {
+          id: Number,
+          avaUrl: String,
+          picUrl: String,
+          isLive: Boolean
+        }
+      }
+    },
+    methods: {
+      onClick() {
+        this.$emit('onClick')
+      }
+    }
   }
 </script>
 

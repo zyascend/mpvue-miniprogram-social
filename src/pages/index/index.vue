@@ -1,34 +1,74 @@
 <template>
   <div class="container">
     <div class="story">
-      <NewStory />
-      <NormalStory />
-      <NormalStory />
-      <NormalStory />
-      <NormalStory />
-      <NormalStory />
-      <NormalStory />
-      <NormalStory />
-      <NormalStory />
+      <NewStory @onClick="onNewStoryClick"/>
+      <NormalStory
+        v-for="story in storys"
+        :key="story.id"
+        :story="story"
+        @onClick="onNormalStoryClick(story.id)"
+      />
     </div>
     <div class="feed">
-      <Post />
-      <Post />
-      <Post />
+      <Post
+        v-for="post in posts"
+        :key="post.postId"
+        :post="post"
+        @onMoreClick="onPostMoreClick(post.postId)"
+        @onUserClick="onPostUserClick(post.user)"
+        @onPicClick="onPostPicClick(post.postId)"
+        @onStarClick="onPostStarClick(post.postId)"
+      />
     </div>
+    <van-dialog id="van-dialog"></van-dialog>
   </div>
 </template>
 
 <script>
-  import NewStory from '@/components/new-story'
-  import NormalStory from '@/components/normal-story'
-  import Post from '@/components/post'
+  import NewStory from '../../components/new-story'
+  import NormalStory from '../../components/normal-story'
+  import Post from '../../components/post'
+  import Dialog from '@vant/weapp/dist/dialog/dialog'
+  import { STORYS, POSTS } from '../../utils/mockDataFactory.js'
 
   export default {
     components: {
       NewStory,
       NormalStory,
       Post
+    },
+    data() {
+      return {
+        storys: STORYS,
+        posts: POSTS
+      }
+    },
+    methods: {
+      onNewStoryClick() {
+        this.dialogAlert('添加新的Story')
+      },
+      onNormalStoryClick(id) {
+        this.dialogAlert(`跳转Story id = ${id}`)
+      },
+      onPostMoreClick(id) {
+        this.dialogAlert(`post more id = ${id}`)
+      },
+      onPostUserClick(user) {
+        this.dialogAlert(`跳转User name = ${user.userName}`)
+      },
+      onPostPicClick(id) {
+        this.dialogAlert(`post pic id = ${id}`)
+      },
+      onPostStarClick(id) {
+        this.dialogAlert(`post star id = ${id}`)
+      },
+      dialogAlert(text) {
+        Dialog.alert({
+          message: text
+        }).then(() => {
+          console.log('closed')
+        })
+      }
     }
   }
 </script>

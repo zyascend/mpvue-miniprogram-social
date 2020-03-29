@@ -1,12 +1,17 @@
 <template>
-  <div class="container">
+  <div class="container" @click="onClick">
     <div class="icon" ></div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'new-story'
+    name: 'new-story',
+    methods: {
+      onClick() {
+        this.$emit('onClick')
+      }
+    }
   }
 </script>
 
