@@ -1,6 +1,8 @@
 {
   "pages": [
-    "pages/index/main"
+    "pages/remind/main",
+    "pages/index/main",
+    "pages/profile/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -11,6 +13,41 @@
   "usingComponents": {
     "van-button": "@vant/weapp/dist/button/index",
     "van-icon": "@vant/weapp/dist/icon/index",
-    "van-dialog": "@vant/weapp/dist/dialog/index"
+    "van-dialog": "@vant/weapp/dist/dialog/index",
+    "van-tab": "@vant/weapp/dist/tab/index",
+    "van-tabs": "@vant/weapp/dist/tabs/index",
+    "van-image": "@vant/weapp/dist/image/index"
+  },
+  "tabBar": {
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+
+    "list": [{
+      "text": "",
+      "pagePath": "pages/index/main",
+      "iconPath": "static/tabs/homepage.png",
+      "selectedIconPath": "static/tabs/homepage_fill.png"
+    }, {
+      "text": "",
+      "pagePath": "pages/index/main",
+      "iconPath": "static/tabs/search.png",
+      "selectedIconPath": "static/tabs/search_fill.png"
+    }, {
+      "text": "",
+      "pagePath": "pages/index/main",
+      "iconPath": "static/tabs/message.png",
+      "selectedIconPath": "static/tabs/message_fill.png"
+    }, {
+      "text": "",
+      "pagePath": "pages/remind/main",
+      "iconPath": "static/tabs/remind.png",
+      "selectedIconPath": "static/tabs/remind_fill.png"
+    }, {
+      "text": "",
+      "pagePath": "pages/profile/main",
+      "iconPath": "static/tabs/mine.png",
+      "selectedIconPath": "static/tabs/mine_fill.png"
+    }],
+    "position": "bottom"
   }
 }

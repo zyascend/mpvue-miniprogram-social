@@ -95,3 +95,120 @@ export const POSTS = [
     postCommentCount: 13
   }
 ]
+
+export const REMIND = [
+  {
+    id: 121,
+    type: 1,
+    time: '1585392633511',
+    action: '@zy followed @sana',
+    textContent: '',
+    pics: []
+  },
+  {
+    id: 122,
+    type: 2,
+    time: '1585392633511',
+    action: '@zy commented @sana',
+    textContent: 'commented: [hahhahhha]',
+    pics: []
+  },
+  {
+    id: 123,
+    type: 3,
+    time: '1585392633511',
+    action: '@zy posted pics',
+    textContent: '',
+    pics: [
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      }
+    ]
+  },
+  {
+    id: 121,
+    type: 1,
+    time: '1585392633511',
+    action: '@zy followed @sana',
+    textContent: '',
+    pics: []
+  },
+  {
+    id: 122,
+    type: 2,
+    time: '1585392633511',
+    action: '@zy commented @sana',
+    textContent: 'commented: [hahhahhha]',
+    pics: []
+  },
+  {
+    id: 123,
+    type: 3,
+    time: '1585392633511',
+    action: '@zy posted pics',
+    textContent: '',
+    pics: [
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      }
+    ]
+  },
+  {
+    id: 121,
+    type: 1,
+    time: '1585392633511',
+    action: '@zy followed @sana',
+    textContent: '',
+    pics: []
+  },
+  {
+    id: 122,
+    type: 2,
+    time: '1585392633511',
+    action: '@zy commented @sana',
+    textContent: 'commented: [hahhahhha]',
+    pics: []
+  },
+  {
+    id: 123,
+    type: 3,
+    time: '1585392633511',
+    action: '@zy posted pics',
+    textContent: '',
+    pics: [
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/cat.jpeg'
+      }
+    ]
+  }
+]
