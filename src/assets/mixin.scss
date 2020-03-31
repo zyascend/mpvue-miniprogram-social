@@ -12,6 +12,10 @@
   width: $w;
   height: $h;
 }
+@mixin bg_center(){
+  background: center no-repeat;
+  background-size: cover;
+}
 @mixin flex_center(){
   display:flex;
   justify-content:center;

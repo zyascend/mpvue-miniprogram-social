@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/remind/main",
+    "pages/newpost/main",
     "pages/index/main",
+    "pages/remind/main",
     "pages/profile/main"
   ],
   "window": {
@@ -16,7 +17,8 @@
     "van-dialog": "@vant/weapp/dist/dialog/index",
     "van-tab": "@vant/weapp/dist/tab/index",
     "van-tabs": "@vant/weapp/dist/tabs/index",
-    "van-image": "@vant/weapp/dist/image/index"
+    "van-image": "@vant/weapp/dist/image/index",
+    "van-uploader": "@vant/weapp/dist/uploader/index"
   },
   "tabBar": {
     "backgroundColor": "#fafafa",

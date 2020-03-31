@@ -45,7 +45,7 @@
     },
     methods: {
       onNewStoryClick() {
-        this.dialogAlert('添加新的Story')
+        this.$router.push('/pages/newpost/main')
       },
       onNormalStoryClick(id) {
         this.dialogAlert(`跳转Story id = ${id}`)
