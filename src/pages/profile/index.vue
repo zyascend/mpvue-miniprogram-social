@@ -116,7 +116,7 @@
       overflow-y: auto;
       .surname, .username, .description {
         color: #ffffff;
-        font-weight: 400;
+
         text-overflow: ellipsis;
         overflow: hidden;
       }
@@ -156,13 +156,11 @@
           .status-count {
             color: #ffffff;
             font-size: 16px;
-            font-weight: 400;
             margin-bottom: 5px;
           }
           .status-name {
             color: #ffffff;
             font-size: 12px;
-            font-weight: 400;
           }
         }
       }
@@ -180,7 +178,6 @@
           background: #ffffff;
           color: #0d0e15;
           font-size: 12px;
-          font-weight: 400;
           line-height: 30px;
           text-align: center;
           border-radius: 5px;
@@ -200,7 +197,6 @@
         .following, .value {
           @include wh(144px, 30px);
           font-size: 12px;
-          font-weight: 400;
           line-height: 30px;
           text-align: center;
           border-radius: 5px;

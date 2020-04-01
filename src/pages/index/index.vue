@@ -29,8 +29,22 @@
   import NormalStory from '../../components/normal-story'
   import Post from '../../components/post'
   import Dialog from '@vant/weapp/dist/dialog/dialog'
-  import { STORYS, POSTS } from '../../utils/mockDataFactory.js'
-
+  import { STORYS } from '../../utils/mockDataFactory.js'
+  import {
+    showLoading,
+    hideLoading,
+    getSetting,
+    getUserInfo,
+    setStorageSync,
+    getStorageSync
+  } from '../../api/wechat'
+  import {
+    getAllPosts
+    // getHomeSectionData,
+    // register,
+    // hasSignToday,
+    // sign
+  } from '../../api'
   export default {
     components: {
       NewStory,
@@ -40,28 +54,116 @@
     data() {
       return {
         storys: STORYS,
-        posts: POSTS
+        posts: [],
+        loading: true,
+        prepare: false,
+        authorized: true,
+        userInfo: null
       }
     },
+    mounted() {
+      this.init()
+    },
+    onPullDownRefresh () {
+      console.log('onPullDownRefresh')
+      setTimeout(() => {
+        mpvue.stopPullDownRefresh()
+      }, 2000)
+    },
+    onReachBottom() {
+      console.log('onReachBottom')
+    },
     methods: {
+      init() {
+        showLoading({ title: '正在加载' })
+        this.getSetting() // 判断是否已经具备获取用户信息权限
+      },
+
+      getSetting() {
+        this.prepare = false
+        this.loading = true
+        const vue = this
+        // 判断当前小程序是否具备userInfo权限
+        getSetting(
+          'userInfo',
+          (res) => {
+            console.log('验证成功...', res)
+            vue.authorized = true
+            vue.prepare = true
+            vue.getUserInfo()
+          },
+          (res) => {
+            console.log('验证失败...', res)
+            vue.authorized = false
+            vue.prepare = true
+            hideLoading()
+          }
+        )
+      },
+      getUserInfo() {
+        const vue = this
+        const onOpenIdComplete = (vue, openId, userInfo) => {
+          vue.openId = openId
+          // 获取首页数据
+          vue.getHomeData(openId, hideLoading)
+          // TODO 上报用户信息，注册账号
+        }
+        console.log('getUserInfo...')
+        getUserInfo(
+          (userInfo) => {
+            vue.  = userInfo
+            setStorageSync('userInfo', userInfo)
+            const openId = getStorageSync('openId')
+            console.log('openId', openId)
+            if (!openId || openId.length === 0) {
+              // getOpenId((openId) => {
+              //   onOpenIdComplete(vue, openId, userInfo)
+              // })
+              onOpenIdComplete(vue, openId, userInfo)
+            } else {
+              onOpenIdComplete(vue, openId, userInfo)
+            }
+          },
+          (err) => {
+            console.log('getUserInfo failed', err)
+          }
+        )
+      },
+      async getHomeData(openId, onComplete) {
+        const res = await getAllPosts()
+        this.posts = res.data.posts
+        let that = this
+        onComplete && onComplete()
+        that.$nextTick(() => {
+          that.loading = false
+        })
+      },
       onNewStoryClick() {
         this.$router.push('/pages/newpost/main')
       },
+
       onNormalStoryClick(id) {
         this.dialogAlert(`跳转Story id = ${id}`)
       },
+
       onPostMoreClick(id) {
         this.dialogAlert(`post more id = ${id}`)
       },
+
       onPostUserClick(user) {
-        this.dialogAlert(`跳转User name = ${user.userName}`)
+        mpvue.switchTab({
+          url: '/pages/profile/main'
+        })
       },
+
       onPostPicClick(id) {
         this.dialogAlert(`post pic id = ${id}`)
       },
+
       onPostStarClick(id) {
         this.dialogAlert(`post star id = ${id}`)
       },
+
       dialogAlert(text) {
         Dialog.alert({
           message: text

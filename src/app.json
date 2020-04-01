@@ -1,9 +1,10 @@
 {
   "pages": [
-    "pages/newpost/main",
     "pages/index/main",
+    "pages/search/main",
     "pages/remind/main",
-    "pages/profile/main"
+    "pages/profile/main",
+    "pages/newpost/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -18,7 +19,7 @@
     "van-tab": "@vant/weapp/dist/tab/index",
     "van-tabs": "@vant/weapp/dist/tabs/index",
     "van-image": "@vant/weapp/dist/image/index",
-    "van-uploader": "@vant/weapp/dist/uploader/index"
+    "van-search": "@vant/weapp/dist/search/index"
   },
   "tabBar": {
     "backgroundColor": "#fafafa",
@@ -31,7 +32,7 @@
       "selectedIconPath": "static/tabs/homepage_fill.png"
     }, {
       "text": "",
-      "pagePath": "pages/index/main",
+      "pagePath": "pages/search/main",
       "iconPath": "static/tabs/search.png",
       "selectedIconPath": "static/tabs/search_fill.png"
     }, {

@@ -103,7 +103,6 @@
         height: 20px;
         color: #0d0e15;
         font-size: 14px;
-        font-weight: 400;
         line-height: 20px;
       }
       .post-info {
@@ -113,7 +112,6 @@
         flex-direction: row;
         justify-content: flex-start;
         font-size: 12px;
-        font-weight: 400;
         line-height: 19px;
         .date {
           color: #768196;
@@ -141,7 +139,6 @@
       word-wrap: break-word;
       word-break: break-all;
       font-size: 14px;
-      font-weight: 400;
       line-height: 20px;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 7;
@@ -173,7 +170,6 @@
           height: 20px;
           color: #0d0e15;
           font-size: 14px;
-          font-weight: 400;
           line-height: 20px;
           margin-right: 5px;
         }
