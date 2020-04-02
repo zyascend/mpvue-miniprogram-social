@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/chat/main",
+    "pages/message/main",
     "pages/index/main",
     "pages/search/main",
     "pages/remind/main",
@@ -19,7 +21,8 @@
     "van-tab": "@vant/weapp/dist/tab/index",
     "van-tabs": "@vant/weapp/dist/tabs/index",
     "van-image": "@vant/weapp/dist/image/index",
-    "van-search": "@vant/weapp/dist/search/index"
+    "van-search": "@vant/weapp/dist/search/index",
+    "van-field": "@vant/weapp/dist/field/index"
   },
   "tabBar": {
     "backgroundColor": "#fafafa",
@@ -37,7 +40,7 @@
       "selectedIconPath": "static/tabs/search_fill.png"
     }, {
       "text": "",
-      "pagePath": "pages/index/main",
+      "pagePath": "pages/message/main",
       "iconPath": "static/tabs/message.png",
       "selectedIconPath": "static/tabs/message_fill.png"
     }, {

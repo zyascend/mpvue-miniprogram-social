@@ -6,6 +6,26 @@ export function getAllPosts() {
   return get(`${API_PREFIX}/mini/post/getAllPosts`)
 }
 
-// export function newPost() {
-//   return get(`${API_PREFIX}/book/home/v2`, { openId })
-// }
+export function newPost(filePath, post) {
+  return new Promise((resolve, reject) => {
+    console.log('function newPost')
+    console.log(filePath, post)
+    mpvue.uploadFile({
+      url: `${API_PREFIX}/mini/post/newPosts`,
+      filePath,
+      name: 'file',
+      formData: {
+        'post': encodeURIComponent(JSON.stringify(post))
+      },
+      success: res => {
+        if (res.statusCode === 200) {
+          console.log('function newPost [success]')
+          resolve()
+        } else {
+          console.log('function newPost [failed]')
+          reject(res)
+        }
+      }
+    })
+  })
+}

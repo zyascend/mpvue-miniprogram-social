@@ -1,31 +1,35 @@
 <template>
-  <div class="container">
-    <div class="story">
-      <NewStory @onClick="onNewStoryClick"/>
-      <NormalStory
-        v-for="story in storys"
-        :key="story.id"
-        :story="story"
-        @onClick="onNormalStoryClick(story.id)"
-      />
+  <div>
+    <div class="container">
+      <div class="story">
+        <NewStory @onClick="onNewStoryClick"/>
+        <NormalStory
+          v-for="story in storys"
+          :key="story.id"
+          :story="story"
+          @onClick="onNormalStoryClick(story.id)"
+        />
+      </div>
+      <div class="feed">
+        <Post
+          v-for="post in posts"
+          :key="post.postId"
+          :post="post"
+          @onMoreClick="onPostMoreClick(post.postId)"
+          @onUserClick="onPostUserClick(post.user)"
+          @onPicClick="onPostPicClick(post.postId)"
+          @onStarClick="onPostStarClick(post.postId)"
+        />
+      </div>
+      <van-dialog id="van-dialog"></van-dialog>
     </div>
-    <div class="feed">
-      <Post
-        v-for="post in posts"
-        :key="post.postId"
-        :post="post"
-        @onMoreClick="onPostMoreClick(post.postId)"
-        @onUserClick="onPostUserClick(post.user)"
-        @onPicClick="onPostPicClick(post.postId)"
-        @onStarClick="onPostStarClick(post.postId)"
-      />
-    </div>
-    <van-dialog id="van-dialog"></van-dialog>
+    <Auth v-if="!authorized" @getUserInfo="handleGetUserInfo"></Auth>
   </div>
 </template>
 
 <script>
   import NewStory from '../../components/new-story'
+  import Auth from '../../components/auth'
   import NormalStory from '../../components/normal-story'
   import Post from '../../components/post'
   import Dialog from '@vant/weapp/dist/dialog/dialog'
@@ -38,6 +42,7 @@
     setStorageSync,
     getStorageSync
   } from '../../api/wechat'
+  import { showToast } from '../../utils'
   import {
     getAllPosts
     // getHomeSectionData,
@@ -49,7 +54,8 @@
     components: {
       NewStory,
       NormalStory,
-      Post
+      Post,
+      Auth
     },
     data() {
       return {
@@ -62,6 +68,9 @@
       }
     },
     mounted() {
+      this.init()
+    },
+    onShow() {
       this.init()
     },
     onPullDownRefresh () {
@@ -111,7 +120,7 @@
         console.log('getUserInfo...')
         getUserInfo(
           (userInfo) => {
-            vue.  = userInfo
+            vue.userInfo = userInfo
             setStorageSync('userInfo', userInfo)
             const openId = getStorageSync('openId')
             console.log('openId', openId)
@@ -129,6 +138,16 @@
           }
         )
       },
+
+      handleGetUserInfo(res) {
+        const { mp: { detail: { errMsg } } } = res
+        if (errMsg === 'getUserInfo:ok') {
+          this.init()
+        } else {
+          showToast('授权失败，请重试')
+        }
+      },
+
       async getHomeData(openId, onComplete) {
         const res = await getAllPosts()
         this.posts = res.data.posts
@@ -138,6 +157,7 @@
           that.loading = false
         })
       },
+
       onNewStoryClick() {
         this.$router.push('/pages/newpost/main')
       },
@@ -147,7 +167,6 @@
       },
 
       onPostMoreClick(id) {
-        this.dialogAlert(`post more id = ${id}`)
       },
 
       onPostUserClick(user) {
@@ -157,11 +176,9 @@
       },
 
       onPostPicClick(id) {
-        this.dialogAlert(`post pic id = ${id}`)
       },
 
       onPostStarClick(id) {
-        this.dialogAlert(`post star id = ${id}`)
       },
 
       dialogAlert(text) {

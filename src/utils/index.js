@@ -1,3 +1,5 @@
+import md5 from 'js-md5'
+
 function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -50,4 +52,8 @@ export function handleError(response) {
 export function showToast(title, success = false) {
   success ? mpvue.showToast({ title })
     : mpvue.showToast({ title, icon: 'none' })
+}
+
+export function getMd5(str = '') {
+  return md5(str)
 }

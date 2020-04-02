@@ -212,3 +212,46 @@ export const REMIND = [
     ]
   }
 ]
+
+export const MESSAGE = [
+  {
+    user: {
+      openId: 'dasd564da5',
+      avaUrl: 'https://img.yzcdn.cn/vant/cat.jpeg',
+      nickName: '哈哈哈'
+    },
+    time: 1585392633511,
+    unreadCount: 3,
+    lastMessage: 'Hello there'
+  },
+  {
+    user: {
+      openId: 'dasaddsad',
+      avaUrl: 'https://img.yzcdn.cn/vant/cat.jpeg',
+      nickName: 'HTTP'
+    },
+    time: 1585392633514,
+    unreadCount: 995,
+    lastMessage: 'Hello there'
+  },
+  {
+    user: {
+      openId: 'dasd56ewqe4da5',
+      avaUrl: 'https://img.yzcdn.cn/vant/cat.jpeg',
+      nickName: 'CORS'
+    },
+    time: 1585392635555,
+    unreadCount: 13,
+    lastMessage: 'Hello there'
+  },
+  {
+    user: {
+      openId: 'dasd5634234da5',
+      avaUrl: 'https://img.yzcdn.cn/vant/cat.jpeg',
+      nickName: 'SANA'
+    },
+    time: 1585392637711,
+    unreadCount: 30,
+    lastMessage: 'Hello there'
+  }
+]

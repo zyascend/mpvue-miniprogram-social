@@ -2,10 +2,18 @@
   <div class="container">
     <div class="top">
       <div class="user">
-        <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt="" class="ava">
-        <p class="name">@zyascend</p>
+        <img :src="userInfo ? userInfo.avatarUrl : ''" alt="" class="ava">
+        <p class="name">{{ userInfo ? userInfo.nickName : '' }}</p>
       </div>
-      <van-button type="info" class="custom-class">发布</van-button>
+      <van-button
+        type="info"
+        color="#fe2042"
+        class="custom-class"
+        :loading="isUploading"
+        :disabled="isUploading"
+        @click="uploadPost">
+        发布
+      </van-button>
     </div>
     <div class="input-wrapper">
       <label>
@@ -35,14 +43,30 @@
 </template>
 
 <script>
+  import {
+    getStorageSync
+  } from '../../api/wechat'
+  import {
+    getMd5,
+    showToast
+  } from '../../utils'
+  import {
+    newPost
+  } from '../../api'
   export default {
     components: {
     },
     data() {
       return {
+        userInfo: null,
         textContent: '',
-        fileList: []
+        fileList: [],
+        isUploading: false
       }
+    },
+    mounted() {
+      // nickName gender city province avatarUrl
+      this.userInfo = getStorageSync('userInfo')
     },
     computed: {
       currentTextLength() {
@@ -60,6 +84,37 @@
       }
     },
     methods: {
+      uploadPost() {
+        if (!this.fileList.length) {
+          showToast('请选择一张图片')
+          return
+        }
+        const { nickName, city, province, avatarUrl } = this.userInfo
+        const post = {
+          user: {
+            userId: getMd5(nickName + avatarUrl),
+            avaUrl: avatarUrl,
+            userName: nickName
+          },
+          postId: getMd5(`${nickName}_${new Date().getTime()}`),
+          postDate: String(new Date().getTime()),
+          postLocation: `${city} ${province}`,
+          postTextContent: this.textContent,
+          postPicUrl: '',
+          postLikeCount: 0,
+          postCommentCount: 0
+        }
+        let vue = this
+        vue.isUploading = true
+        newPost(this.fileList[0].url, post)
+          .then(() => {
+            vue.$router.back()
+          }).catch(e => {
+            console.log(e)
+            vue.isUploading = false
+            showToast('发布失败')
+          })
+      },
       chooseImg() {
         mpvue.chooseImage({
           count: 1,
@@ -101,7 +156,9 @@
         })
       }
     },
-    mounted() {
+    onLoad() {
+      console.log('[new post] [onLoad]')
+      Object.assign(this.$data, this.$options.data())
     }
   }
 </script>
