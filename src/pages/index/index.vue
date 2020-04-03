@@ -43,13 +43,7 @@
     getStorageSync
   } from '../../api/wechat'
   import { showToast } from '../../utils'
-  import {
-    getAllPosts
-    // getHomeSectionData,
-    // register,
-    // hasSignToday,
-    // sign
-  } from '../../api'
+  import { getAllPosts } from '../../api'
   export default {
     components: {
       NewStory,

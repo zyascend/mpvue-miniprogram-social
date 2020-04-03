@@ -29,3 +29,10 @@ export function newPost(filePath, post) {
     })
   })
 }
+
+export function getTodayList() {
+  const date = new Date()
+  const dateString = `${date.getMonth() + 1}/${date.getDate()}`
+  console.log(dateString)
+  return get(`${API_PREFIX}/today/getToday?date=${dateString}`)
+}

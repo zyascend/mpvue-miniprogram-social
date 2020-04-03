@@ -18,6 +18,9 @@
       </div>
       <div class="recommend">
         <p class="title">试试这些</p>
+        <div class="explore">
+          <div class="item" @click="onTodayClick"><span>历史上的今天</span></div>
+        </div>
       </div>
     </div>
     <div v-show="searched" class="searched">
@@ -75,6 +78,11 @@
       },
       onSearch(event) {
         this.searched = true
+      },
+      onTodayClick() {
+        mpvue.switchTab({
+          url: '/pages/remind/main'
+        })
       }
     },
     mounted() {
@@ -134,14 +142,35 @@
         }
       }
       .recommend {
+        @include wh(100%, auto);
+        @include flex_center;
+        flex-direction: column;
+        align-items: flex-start;
         .title {
           @include wh(100%, 20px);
           color: #768196;
           font-size: 14px;
           font-weight: 400;
           line-height: 20px;
-          margin-bottom: 10px;
-          margin-top: 5px;
+          margin-bottom: 15px;
+          margin-top: 10px;
+        }
+        .explore {
+          @include wh(100%, auto);
+          @include flexStart;
+          .item {
+            @include wh(160px, 120px);
+            @include flex_center;
+            margin-right: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #FFFFFF;
+            border-radius: 10px;
+            background: linear-gradient(-69deg, #FF9509, #FE2042);
+            &:nth-child(even) {
+              margin-right: 0;
+            }
+          }
         }
       }
     }

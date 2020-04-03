@@ -1,34 +1,48 @@
 <template>
   <div class="container">
     <div class="feed">
-      <RemindItem
-        v-for="item in reminds"
-        :key="item.id"
-        :remind="item"
+      <TodayItem
+        v-for="item in todayList"
+        :key="item.dateName"
+        :today="item"
+        @onClick="onItemClick(item)"
       />
     </div>
   </div>
 </template>
 
 <script>
-  import RemindItem from '../../components/remind-item'
-  import { REMIND } from '../../utils/mockDataFactory.js'
-
+  import TodayItem from '../../components/today-item'
+  import { getTodayList } from '../../api'
+  import { showLoading, hideLoading } from '../../api/wechat'
+  import { showToast } from '../../utils'
   export default {
     components: {
-      RemindItem
+      TodayItem
     },
     data() {
       return {
-        reminds: REMIND
+        todayList: []
       }
     },
-    methods: {},
+    methods: {
+      onItemClick(item) {
+        mpvue.setClipboardData({
+          data: item.content,
+          success: () => {
+            showToast('链接已复制，请在浏览器打开')
+          }
+        })
+      },
+      async init() {
+        const res = await getTodayList()
+        this.todayList = res.data.today.list
+        hideLoading()
+      }
+    },
     mounted() {
-      mpvue.setTabBarBadge({
-        index: 3,
-        text: String(this.reminds.length)
-      })
+      showLoading({ title: '正在加载' })
+      this.init()
     }
   }
 </script>
