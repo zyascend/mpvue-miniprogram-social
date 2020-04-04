@@ -24,19 +24,19 @@
       <van-dialog id="van-dialog"></van-dialog>
     </div>
     <Auth v-if="!authorized" @getUserInfo="handleGetUserInfo"></Auth>
+    <IndexPreload v-if="loading" />
   </div>
 </template>
 
 <script>
   import NewStory from '../../components/new-story'
   import Auth from '../../components/auth'
+  import IndexPreload from '../../components/index-preload'
   import NormalStory from '../../components/normal-story'
   import Post from '../../components/post'
   import Dialog from '@vant/weapp/dist/dialog/dialog'
   import { STORYS } from '../../utils/mockDataFactory.js'
   import {
-    showLoading,
-    hideLoading,
     getSetting,
     getUserInfo,
     setStorageSync,
@@ -49,14 +49,14 @@
       NewStory,
       NormalStory,
       Post,
-      Auth
+      Auth,
+      IndexPreload
     },
     data() {
       return {
         storys: STORYS,
         posts: [],
         loading: true,
-        prepare: false,
         authorized: true,
         userInfo: null
       }
@@ -65,25 +65,20 @@
       this.init()
     },
     onShow() {
-      this.init()
+      this.getHomeData()
     },
     onPullDownRefresh () {
-      console.log('onPullDownRefresh')
-      setTimeout(() => {
-        mpvue.stopPullDownRefresh()
-      }, 2000)
+      this.getHomeData()
     },
     onReachBottom() {
       console.log('onReachBottom')
     },
     methods: {
       init() {
-        showLoading({ title: '正在加载' })
         this.getSetting() // 判断是否已经具备获取用户信息权限
       },
 
       getSetting() {
-        this.prepare = false
         this.loading = true
         const vue = this
         // 判断当前小程序是否具备userInfo权限
@@ -92,14 +87,11 @@
           (res) => {
             console.log('验证成功...', res)
             vue.authorized = true
-            vue.prepare = true
             vue.getUserInfo()
           },
           (res) => {
             console.log('验证失败...', res)
             vue.authorized = false
-            vue.prepare = true
-            hideLoading()
           }
         )
       },
@@ -108,7 +100,7 @@
         const onOpenIdComplete = (vue, openId, userInfo) => {
           vue.openId = openId
           // 获取首页数据
-          vue.getHomeData(openId, hideLoading)
+          vue.getHomeData()
           // TODO 上报用户信息，注册账号
         }
         console.log('getUserInfo...')
@@ -142,11 +134,11 @@
         }
       },
 
-      async getHomeData(openId, onComplete) {
+      async getHomeData() {
         const res = await getAllPosts()
         this.posts = res.data.posts
+        mpvue.stopPullDownRefresh()
         let that = this
-        onComplete && onComplete()
         that.$nextTick(() => {
           that.loading = false
         })

@@ -20,6 +20,7 @@
         <p class="title">试试这些</p>
         <div class="explore">
           <div class="item" @click="onTodayClick"><span>历史上的今天</span></div>
+          <div class="item" @click="onGridClick"><span>9宫切图</span></div>
         </div>
       </div>
     </div>
@@ -47,7 +48,6 @@
 
 <script>
   import Post from '../../components/post'
-  // import Dialog from '@vant/weapp/dist/dialog/dialog'
   import { POSTS } from '../../utils/mockDataFactory.js'
 
   export default {
@@ -83,6 +83,9 @@
         mpvue.switchTab({
           url: '/pages/remind/main'
         })
+      },
+      onGridClick() {
+        this.$router.push('/pages/grid/main')
       }
     },
     mounted() {

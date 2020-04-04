@@ -37,7 +37,7 @@
     @include flex_center;
     @include wh(100%, 100%);
     background: #999999;
-
+    z-index: 999;
     .auth-wrapper {
       position: relative;
       background: #fff;

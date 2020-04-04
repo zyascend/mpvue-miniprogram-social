@@ -1,10 +1,11 @@
 {
   "pages": [
-    "pages/remind/main",
     "pages/search/main",
+    "pages/grid/main",
+    "pages/index/main",
+    "pages/remind/main",
     "pages/chat/main",
     "pages/message/main",
-    "pages/index/main",
     "pages/profile/main",
     "pages/newpost/main"
   ],
@@ -22,7 +23,7 @@
     "van-tabs": "@vant/weapp/dist/tabs/index",
     "van-image": "@vant/weapp/dist/image/index",
     "van-search": "@vant/weapp/dist/search/index",
-    "van-field": "@vant/weapp/dist/field/index"
+    "van-skeleton": "@vant/weapp/dist/skeleton/index"
   },
   "tabBar": {
     "backgroundColor": "#fafafa",

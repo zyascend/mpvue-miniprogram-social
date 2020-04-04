@@ -6,7 +6,17 @@ export function showLoading(params) {
 export function hideLoading() {
   mpvue.hideLoading()
 }
-
+export function authorize (scope, onSuccess, onFail) {
+  mpvue.authorize({
+    scope: `scope.${scope}`,
+    success: () => {
+      onSuccess && onSuccess()
+    },
+    fail: () => {
+      onFail && onFail()
+    }
+  })
+}
 export function getSetting(authorize, onSuccess, onFail) {
   mpvue.getSetting({
     success: (res) => {

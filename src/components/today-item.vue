@@ -50,7 +50,7 @@
       width: 1px;
       height: 100%;
       background-color: #979797;
-      z-index: 99;
+      z-index: 20;
     }
     .icon-wrapper {
       @include positionTL(absolute, 20px, 20px);
@@ -58,7 +58,7 @@
       @include flex_center;
       border: #979797 1px solid;
       border-radius: 13px;
-      z-index: 100;
+      z-index: 21;
       background-color: white;
       .icon {
         @include wh(12px, 12px);
