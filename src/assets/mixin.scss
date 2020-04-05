@@ -29,6 +29,11 @@
   background: center no-repeat;
   background-size: cover;
 }
+@mixin circlePic($size){
+  width: $size;
+  height: $size;
+  border-radius: $size/2;
+}
 @mixin flex_center(){
   display:flex;
   justify-content:center;

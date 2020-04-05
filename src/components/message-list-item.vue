@@ -1,6 +1,6 @@
 <template>
   <div class="container" @click="onClick">
-    <img :src="item.user.avaUrl" alt="" class="ava">
+    <img :src="item.user.avatarUrl" alt="" class="ava">
     <div class="info">
       <div class="top">
         <div class="name">{{ item.user.nickName }}</div>
@@ -24,7 +24,7 @@
         default: {
           user: {
             openId: String,
-            avaUrl: String,
+            avatarUrl: String,
             nickName: String
           },
           time: Number,

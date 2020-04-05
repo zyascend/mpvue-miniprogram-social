@@ -1,8 +1,8 @@
 <template>
   <div class="container" @click="onClick">
-    <img class="pic" alt="" :src="story.picUrl"/>
-    <img class="ava" alt="" :src="story.avaUrl"/>
-    <div v-if="story.isLive" class="live">Live</div>
+    <img class="pic" alt="" :src="story.user.avatarUrl"/>
+    <img class="ava" alt="" :src="story.user.avatarUrl"/>
+    <div class="live">视频</div>
   </div>
 </template>
 
@@ -13,10 +13,19 @@
       story: {
         type: Object,
         default: {
-          id: Number,
-          avaUrl: String,
-          picUrl: String,
-          isLive: Boolean
+          user: {
+            openId: String,
+            avatarUrl: String,
+            nickName: String
+          },
+          postId: String,
+          sourceType: String,
+          postDate: String,
+          postLocation: String,
+          postTextContent: String,
+          sourceUrl: String,
+          postLikeCount: Number,
+          postCommentCount: Number
         }
       }
     },

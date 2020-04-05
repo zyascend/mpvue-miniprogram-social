@@ -1,13 +1,14 @@
 {
   "pages": [
+    "pages/index/main",
+    "pages/profile/main",
+    "pages/newpost/main",
+    "pages/video/main",
     "pages/search/main",
     "pages/grid/main",
-    "pages/index/main",
     "pages/remind/main",
     "pages/chat/main",
-    "pages/message/main",
-    "pages/profile/main",
-    "pages/newpost/main"
+    "pages/message/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

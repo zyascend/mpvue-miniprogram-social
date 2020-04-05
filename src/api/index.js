@@ -2,8 +2,8 @@ import { get } from '../utils/request'
 
 const API_PREFIX = 'https://weapp.shyshyshy.icu'
 
-export function getAllPosts() {
-  return get(`${API_PREFIX}/mini/post/getAllPosts`)
+export function getAllPosts(openid) {
+  return get(`${API_PREFIX}/mini/post/getAllPosts`, {openid})
 }
 
 export function newPost(filePath, post) {

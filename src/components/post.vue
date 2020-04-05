@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="top">
-      <img :src="post.user.avaUrl" alt="" class="ava" @click="onUserClick">
-      <div class="name"  @click="onUserClick">{{ post.user.userName }}</div>
+      <img :src="post.user.avatarUrl" alt="" class="ava" @click="onUserClick">
+      <div class="name"  @click="onUserClick">{{ post.user.nickName }}</div>
       <div class="post-info">
         <p class="date">{{ formatedDate }}</p>
         <van-icon name="location-o" class="icon" color="#9da4b3"></van-icon>
@@ -12,8 +12,8 @@
     </div>
     <p class="content" v-if="post.postTextContent">{{ post.postTextContent }}</p>
     <img
-      :src="post.postPicUrl"
-      v-if="post.postPicUrl"
+      :src="post.sourceUrl"
+      v-if="post.sourceUrl"
       alt=""
       class="img"
       @click="onPicClick">
@@ -39,15 +39,16 @@
         type: Object,
         default: {
           user: {
-            userId: String,
-            avaUrl: String,
-            userName: String
+            openId: String,
+            avatarUrl: String,
+            nickName: String
           },
           postId: String,
+          sourceType: String,
           postDate: String,
           postLocation: String,
           postTextContent: String,
-          postPicUrl: String,
+          sourceUrl: String,
           postLikeCount: Number,
           postCommentCount: Number
         }

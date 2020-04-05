@@ -33,9 +33,9 @@
         :key="file.url"
       >
         <img :src="file.url" alt="" class="pic" @click="operateImg(file.url)">
-        <van-icon name="clear" class="delete" @click="deletePic(file.url)"></van-icon>
+        <van-icon name="clear" class="delete" @click="onDelete(file.url)"></van-icon>
       </div>
-      <div class="uploader" @click="chooseImg" v-if="showUpload">
+      <div class="uploader" @click="chooseMedia" v-if="showUpload">
         <van-icon name="photo-o" class="icon"></van-icon>
       </div>
     </div>
@@ -44,7 +44,9 @@
 
 <script>
   import {
-    getStorageSync
+    getStorageSync,
+    showLoading,
+    hideLoading
   } from '../../api/wechat'
   import {
     getMd5,
@@ -61,6 +63,8 @@
         userInfo: null,
         textContent: '',
         fileList: [],
+        videoPath: '',
+        fileType: 'image',
         isUploading: false
       }
     },
@@ -86,45 +90,58 @@
     methods: {
       uploadPost() {
         if (!this.fileList.length) {
-          showToast('请选择一张图片')
+          showToast('请选择一张图片或视频')
           return
         }
         const { nickName, city, province, avatarUrl } = this.userInfo
         const post = {
           user: {
-            userId: getMd5(nickName + avatarUrl),
-            avaUrl: avatarUrl,
-            userName: nickName
+            openId: getStorageSync('openid'),
+            avatarUrl: avatarUrl,
+            nickName: nickName
           },
+          sourceType: this.fileType,
           postId: getMd5(`${nickName}_${new Date().getTime()}`),
           postDate: String(new Date().getTime()),
           postLocation: `${city} ${province}`,
           postTextContent: this.textContent,
-          postPicUrl: '',
+          sourceUrl: '',
           postLikeCount: 0,
           postCommentCount: 0
         }
         let vue = this
         vue.isUploading = true
-        newPost(this.fileList[0].url, post)
+        showLoading({ title: `发布中，请耐心等待...` })
+        const path = this.fileType === 'image' ? this.fileList[0].url : this.videoPath
+        newPost(path, post)
           .then(() => {
+            hideLoading()
             vue.$router.back()
           }).catch(e => {
             console.log(e)
+            hideLoading()
             vue.isUploading = false
             showToast('发布失败')
           })
       },
-      chooseImg() {
-        mpvue.chooseImage({
+      chooseMedia() {
+        mpvue.chooseMedia({
           count: 1,
+          mediaType: ['image', 'video'],
+          maxDuration: 30,
           success: res => {
-            const tempFilePaths = res.tempFilePaths
-            tempFilePaths.forEach(url => {
+            this.fileType = res.type // 文件类型，有效值有 image 、video
+            const tempFiles = res.tempFiles
+            tempFiles.forEach(file => {
+              console.log(file)
               this.fileList.push({
-                url
+                url: res.type === 'image' ? file.tempFilePath : file.thumbTempFilePath
               })
             })
+            if (res.type === 'video') {
+              this.videoPath = tempFiles[0].tempFilePath
+              console.log('videoPath', this.videoPath)
+            }
           },
           fail: () => {
             console.log('mpvue.chooseImage: failed')
@@ -134,8 +151,9 @@
           }
         })
       },
-      deletePic(url) {
+      onDelete(url) {
         this.fileList = this.fileList.filter(i => i.url !== url)
+        this.videoPath = ''
       },
       operateImg(url) {
         console.log(url)

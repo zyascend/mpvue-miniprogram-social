@@ -9,13 +9,6 @@
       placeholder="请输入搜索关键词">
     </van-search>
     <div v-show="!searched" class="nosearch">
-      <div class="recent-search">
-        <p class="title">最近搜索</p>
-        <div class="item" v-for="s in recentSearches" :key="s" @click="onRecentSearchClick(s)">
-          <van-icon name="search" class="icon"></van-icon>
-          <p class="text">{{ s }}</p>
-        </div>
-      </div>
       <div class="recommend">
         <p class="title">试试这些</p>
         <div class="explore">
@@ -29,17 +22,25 @@
         animated
         :active="activeTab"
         class="tabs">
-        <van-tab title="All" name="all">
-          All
+        <van-tab title-style="custom-class" title="全部" name="all">
+          <div class="empty">
+            暂无内容
+          </div>
         </van-tab>
-        <van-tab title="Posts" name="posts">
-          Posts
+        <van-tab title="日记" name="post">
+          <div class="empty">
+            <span>暂无内容</span>
+          </div>
         </van-tab>
-        <van-tab title="Photos" name="photos">
-          Photos
+        <van-tab title="故事" name="story">
+          <div class="empty">
+            <span>暂无内容</span>
+          </div>
         </van-tab>
-        <van-tab title="Videos" name="videos">
-          Videos
+        <van-tab title="其他" name="other">
+          <div class="empty">
+            <span>暂无内容</span>
+          </div>
         </van-tab>
       </van-tabs>
     </div>
@@ -59,7 +60,7 @@
         searchValue: '',
         searched: false,
         recentSearches: ['SANA', '小程序'],
-        activeTab: 'all ',
+        activeTab: 'all',
         searchedPosts: POSTS
       }
     },
@@ -120,30 +121,6 @@
       margin-bottom: 10px;
     }
     .nosearch {
-      .recent-search {
-        .title {
-          @include wh(100%, 20px);
-          color: #768196;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 20px;
-          margin-bottom: 10px;
-        }
-        .item {
-          @include wh(100%, auto);
-          @include flex_center;
-          flex-direction: row;
-          justify-content: flex-start;
-          margin-bottom: 8px;
-          .icon {
-            @include wh(13px, 13px);
-            margin-right: 10px;
-          }
-          .text {
-            font-size: 14px;
-          }
-        }
-      }
       .recommend {
         @include wh(100%, auto);
         @include flex_center;
@@ -180,7 +157,26 @@
     .searched {
       @include wh(100%, auto);
       .tabs {
-        @include wh(100%, auto);
+        margin-top: 20px;
+        width: 100%;
+        /deep/ .van-hairline--top-bottom:after {
+          border: none;
+        }
+        /deep/ .van-tabs__scroll {
+          background-color: transparent !important;
+        }
+        /deep/ .van-tab--active {
+          font-size: 14px;
+        }
+        /deep/ .van-tab {
+          font-size: 14px;
+        }
+        .empty {
+          width: 100%;
+          @include flex_center;
+          margin-top: 30px;
+          font-size: 18px;
+        }
       }
     }
   }

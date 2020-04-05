@@ -5,9 +5,9 @@
         <NewStory @onClick="onNewStoryClick"/>
         <NormalStory
           v-for="story in storys"
-          :key="story.id"
+          :key="story.postId"
           :story="story"
-          @onClick="onNormalStoryClick(story.id)"
+          @onClick="onNormalStoryClick(story)"
         />
       </div>
       <div class="feed">
@@ -25,6 +25,7 @@
     </div>
     <Auth v-if="!authorized" @getUserInfo="handleGetUserInfo"></Auth>
     <IndexPreload v-if="loading" />
+    <PageStatus :status="pageStatus" tips="点击左上角发布日记"/>
   </div>
 </template>
 
@@ -34,13 +35,14 @@
   import IndexPreload from '../../components/index-preload'
   import NormalStory from '../../components/normal-story'
   import Post from '../../components/post'
+  import PageStatus from '../../components/page-status'
   import Dialog from '@vant/weapp/dist/dialog/dialog'
-  import { STORYS } from '../../utils/mockDataFactory.js'
   import {
     getSetting,
     getUserInfo,
     setStorageSync,
-    getStorageSync
+    getStorageSync,
+    getOpenId
   } from '../../api/wechat'
   import { showToast } from '../../utils'
   import { getAllPosts } from '../../api'
@@ -50,15 +52,18 @@
       NormalStory,
       Post,
       Auth,
-      IndexPreload
+      IndexPreload,
+      PageStatus
     },
     data() {
       return {
-        storys: STORYS,
+        storys: [],
         posts: [],
         loading: true,
         authorized: true,
-        userInfo: null
+        userInfo: null,
+        openId: '',
+        pageStatus: null
       }
     },
     mounted() {
@@ -101,20 +106,17 @@
           vue.openId = openId
           // 获取首页数据
           vue.getHomeData()
-          // TODO 上报用户信息，注册账号
         }
         console.log('getUserInfo...')
         getUserInfo(
           (userInfo) => {
             vue.userInfo = userInfo
             setStorageSync('userInfo', userInfo)
-            const openId = getStorageSync('openId')
-            console.log('openId', openId)
+            const openId = getStorageSync('openid')
             if (!openId || openId.length === 0) {
-              // getOpenId((openId) => {
-              //   onOpenIdComplete(vue, openId, userInfo)
-              // })
-              onOpenIdComplete(vue, openId, userInfo)
+              getOpenId((openId) => {
+                onOpenIdComplete(vue, openId, userInfo)
+              })
             } else {
               onOpenIdComplete(vue, openId, userInfo)
             }
@@ -135,8 +137,15 @@
       },
 
       async getHomeData() {
-        const res = await getAllPosts()
-        this.posts = res.data.posts
+        if (!this.openId || !this.authorized) { return }
+        const res = await getAllPosts(this.openId)
+        this.posts = res.data.posts.filter(p => p.sourceType === 'image')
+        if (!this.posts.length) {
+          this.pageStatus = 'NODATA'
+        } else {
+          this.pageStatus = null // null表示正常状态
+        }
+        this.storys = res.data.posts.filter(p => p.sourceType === 'video')
         mpvue.stopPullDownRefresh()
         let that = this
         that.$nextTick(() => {
@@ -148,8 +157,15 @@
         this.$router.push('/pages/newpost/main')
       },
 
-      onNormalStoryClick(id) {
-        this.dialogAlert(`跳转Story id = ${id}`)
+      onNormalStoryClick(story) {
+        this.$router.push({
+          path: '/pages/video/main',
+          query: {
+            videoUrl: story.sourceUrl,
+            title: story.postTextContent,
+            avatarUrl: story.user.avaUrl
+          }
+        })
       },
 
       onPostMoreClick(id) {

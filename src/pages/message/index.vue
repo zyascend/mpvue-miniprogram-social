@@ -3,7 +3,7 @@
     <div class="feed">
       <MessageListItem
         v-for="item in messages"
-        :key="item.user.openId"
+        :key="item.user.nickName"
         @onClick="jumpToChat(item)"
         :item="item" />
     </div>
@@ -12,7 +12,7 @@
 
 <script>
   import MessageListItem from '../../components/message-list-item'
-  import { MESSAGE } from '../../utils/mockDataFactory.js'
+  import { getStorageSync } from '../../api/wechat'
 
   export default {
     components: {
@@ -20,8 +20,19 @@
     },
     data() {
       return {
-        messages: MESSAGE
+        messages: []
       }
+    },
+    mounted() {
+      this.messages.push(
+        {
+          user: getStorageSync('userInfo'),
+          time: new Date().getTime(),
+          unreadCount: 1,
+          lastMessage: '跟自己聊聊天...'
+        }
+      )
+      this.setMessageCount()
     },
     methods: {
       jumpToChat(message) {
@@ -43,9 +54,6 @@
           text: count
         })
       }
-    },
-    mounted() {
-      this.setMessageCount()
     }
   }
 </script>

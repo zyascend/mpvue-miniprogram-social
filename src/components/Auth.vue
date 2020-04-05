@@ -1,8 +1,8 @@
 <template>
   <div class="authorized">
     <div class="auth-wrapper">
-      <img class="auth-img" alt="" src="http://qiniu.shyshyshy.icu/image/zysocial/zsociallogo.png"/>
-      <div class="auth-text">登录zSocial</div>
+      <img class="auth-img" alt="" src="https://qiniu.shyshyshy.icu/image/zysocial/logo.png"/>
+      <div class="auth-text">登录 Z日记</div>
       <div class="auth-strong-text">解锁完整功能</div>
       <button
         class="auth-btn"
@@ -51,6 +51,7 @@
         margin: 20px 0 20px 0;
         background: center no-repeat;
         background-size: cover;
+        border-radius: 65px;
       }
       .auth-text {
         margin-bottom: 15px;
